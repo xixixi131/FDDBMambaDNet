@@ -1,0 +1,59 @@
+model:
+  in_channels: 3
+  out_channels: 3
+  base_channels: 32
+  num_levels: 4
+  d_state: 64
+  d_conv: 4
+  expand: 2
+  mamba_blocks_per_level: [2, 2, 2, 4]
+  gabor_blocks_per_level: [2, 2, 2, 4]
+  gabor_n_orientations: 4
+  gabor_n_scales: 3
+  num_heads: 4
+  use_residual_learning: true
+
+data:
+  train_datasets:
+    - name: RESIDE-6K
+      hazy_dir: ./data/RESIDE-6K/train/hazy
+      gt_dir: ./data/RESIDE-6K/train/GT
+  val_datasets:
+    - name: RESIDE-6K
+      hazy_dir: ./data/RESIDE-6K/test/hazy
+      gt_dir: ./data/RESIDE-6K/test/GT
+  crop_size: 256
+  batch_size: 24
+  num_workers: 4
+
+loss:
+  lambda_l1: 1.0
+  lambda_ssim: 1.0
+  lambda_perceptual: 0.1
+  lambda_phase: 0.5
+  lambda_freq_recon: 0.5
+
+training:
+  total_epochs: 200
+  optimizer: AdamW
+  lr: 0.00005
+  weight_decay: 0.0001
+  betas: [0.9, 0.999]
+  scheduler: CosineAnnealingLR
+  T_max: 190
+  eta_min: 0.000001
+  grad_clip: 0.5
+  warmup_epochs: 10
+  warmup_lr: 0.000001
+
+logging:
+  log_dir: ./experiments
+  log_interval: 100
+  val_interval: 1
+  save_interval: 10
+  save_best: true
+
+hardware:
+  seed: 42
+  gpu_ids: [0]
+  mixed_precision: true

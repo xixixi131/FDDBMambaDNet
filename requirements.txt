@@ -1,0 +1,11 @@
+torch>=2.0.0
+torchvision>=0.15.0
+numpy
+Pillow
+pyyaml
+einops>=0.4.0
+tensorboard
+lpips
+# Install AFTER torch+CUDA (pip install mamba-ssm causal-conv1d)
+mamba-ssm>=2.2.0
+causal-conv1d>=1.4.0
